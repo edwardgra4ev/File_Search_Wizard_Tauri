@@ -2,6 +2,19 @@
 
 Приложения для поиска текста в файлах.
 
+<details>
+  <summary>Изображения</summary>
+
+![](https://github.com/edwardgra4ev/File_Search_Wizard_Tauri/blob/main/images/1.png?raw=true)
+![](https://github.com/edwardgra4ev/File_Search_Wizard_Tauri/blob/main/images/2.png?raw=true)
+![](https://github.com/edwardgra4ev/File_Search_Wizard_Tauri/blob/main/images/3.png?raw=true)
+![](https://github.com/edwardgra4ev/File_Search_Wizard_Tauri/blob/main/images/4.png?raw=true)
+![](https://github.com/edwardgra4ev/File_Search_Wizard_Tauri/blob/main/images/5.png?raw=true)
+![](https://github.com/edwardgra4ev/File_Search_Wizard_Tauri/blob/main/images/6.png?raw=true)
+![](https://github.com/edwardgra4ev/File_Search_Wizard_Tauri/blob/main/images/7.png?raw=true)
+
+</details>
+</br>
 Приложение разработано на Tauri + React с использованием следующих зависимостей
 
 - [Tauri](https://tauri.app/)
