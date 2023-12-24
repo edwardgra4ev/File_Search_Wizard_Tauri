@@ -1,7 +1,21 @@
-# Tauri + React + Typescript
+# File Search Wizard ![](https://github.com/edwardgra4ev/File_Search_Wizard_Tauri/blob/main/src-tauri/icons/32x32.png?raw=true)
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+Приложения для поиска текста в файлах.
 
-## Recommended IDE Setup
+Приложение разработано на Tauri + React с использованием следующих зависимостей
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+- [Tauri](https://tauri.app/)
+- [Rust Search](https://github.com/ParthJadhav/Rust_Search)
+- [Chrono](https://github.com/chronotope/chrono)
+- [TypeScript](https://www.typescriptlang.org/)
+- [React](https://ru.legacy.reactjs.org/)
+- [Redux](https://redux.js.org/)
+- [Vite](https://vitejs.dev/)
+- [PrimeReact](https://primereact.org/)
+- [PrimeFlex](https://primeflex.org/)
+- [React Icons](https://react-icons.github.io/react-icons/)
+- [Date-fns](https://date-fns.org/)
+
+## Развертывание среды разработки
+
+Клонировать репозиторий, выполнить команды `yarn` и `yarn tauri dev`
