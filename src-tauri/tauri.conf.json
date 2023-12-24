@@ -35,7 +35,7 @@
 			"active": true,
 			"targets": "all",
 			"identifier": "file-search-wizard",
-			"icon": ["icons/icon.ico"]
+			"icon": ["icons/icon.ico", "icons/32x32.png", "icons/128x128.png"]
 		},
 		"security": {
 			"csp": null
