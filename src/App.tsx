@@ -10,6 +10,7 @@ import StartSearchButton from './components/StartSearchButton'
 import SearchProgressBar from './components/SearchProgressBar'
 import SettingsSearch from './components/SettingsSearch'
 import SearchResult from './components/SearchResult'
+import ModalEditor from './components/ModalEditor'
 
 import 'primereact/resources/themes/bootstrap4-dark-purple/theme.css'
 import 'primereact/resources/primereact.min.css'
@@ -42,8 +43,10 @@ function App() {
 					</Card>
 				</Fieldset>
 			</div>
-			<SearchResult className={'pt-2'} />
-			<div className='container'></div>
+			<SearchResult className={'pt-2'} toast={toast} />
+			<div className='container'>
+				<ModalEditor />
+			</div>
 		</div>
 	)
 }

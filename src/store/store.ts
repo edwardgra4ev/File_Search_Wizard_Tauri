@@ -6,6 +6,7 @@ import { reducer as searchButtonReducer } from './searchButton/searchButton.slic
 import { reducer as progressBarReducer } from './progressBar/progressBar.slice'
 import { reducer as settingsSearchReducer } from './settingsSearch/settingsSearch.slice'
 import { reducer as searchResultReducer } from './searchResult/searchResult.slice'
+import { reducer as modalEditorReducer } from './modalEditor/modalEditor.slice'
 
 const reducers = combineReducers({
 	path: pathReducer,
@@ -14,6 +15,7 @@ const reducers = combineReducers({
 	progressBar: progressBarReducer,
 	settingsSearch: settingsSearchReducer,
 	searchResult: searchResultReducer,
+	modalEditor: modalEditorReducer,
 })
 
 export const store = configureStore({
