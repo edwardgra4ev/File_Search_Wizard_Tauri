@@ -9,11 +9,15 @@ import { Accordion, AccordionTab } from 'primereact/accordion'
 import { useSelector } from 'react-redux'
 import { RootState } from '../store/store'
 import { InputText } from 'primereact/inputtext'
-import { MdFilterAltOff } from 'react-icons/md'
+import { MdFileOpen, MdFilterAltOff } from 'react-icons/md'
 import { Button } from 'primereact/button'
+import { readTextFile } from '@tauri-apps/api/fs'
+import { useActions } from '../hooks/useActions'
+import { error_message } from '../hooks/messages'
 
 interface ISearchResult {
 	className?: string
+	toast: any
 }
 
 const defaultFilters: DataTableFilterMeta = {
@@ -22,7 +26,7 @@ const defaultFilters: DataTableFilterMeta = {
 	repetitions_count: { value: null, matchMode: FilterMatchMode.EQUALS },
 }
 
-const SearchResult: FC<ISearchResult> = ({ className }) => {
+const SearchResult: FC<ISearchResult> = ({ className, toast }) => {
 	const [isHiddenResult, setIsHiddenResult] = useState(true)
 	const [isHiddenError, setIsHiddenError] = useState(true)
 	const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters)
@@ -30,6 +34,14 @@ const SearchResult: FC<ISearchResult> = ({ className }) => {
 	const { result, error } = useSelector(
 		(state: RootState) => state.searchResult
 	)
+	const { textLength } = useSelector((state: RootState) => state.searchText)
+	const {
+		setIndexes,
+		setEditorHeader,
+		setIsVisibleEditor,
+		setDisableNextIndex,
+		setEditorContents,
+	} = useActions()
 
 	const footerGroup = (array: any) => {
 		return (
@@ -81,6 +93,24 @@ const SearchResult: FC<ISearchResult> = ({ className }) => {
 		)
 	}
 
+	const openModal = async (data: any) => {
+		const contents = await readTextFile(data.file_path)
+		if (contents && contents != '') {
+			setIndexes(data.indexes)
+			setEditorHeader(data.file_path)
+			setIsVisibleEditor(true)
+			setEditorContents(contents)
+		} else {
+			await error_message(toast, 'Не удалось открыть файл')
+		}
+	}
+
+	const openBodyTemplate = (data: any) => {
+		return (
+			<Button icon={<MdFileOpen />} onClick={() => openModal(data)}></Button>
+		)
+	}
+
 	const header = renderHeader()
 	return (
 		<div className={className} hidden={isHiddenResult}>
@@ -98,8 +128,6 @@ const SearchResult: FC<ISearchResult> = ({ className }) => {
 						header={header}
 						emptyMessage='Нет записей.'
 						footerColumnGroup={footerGroup(result)}
-						// paginatorTemplate='RowsPerPageDropdown PrevPageLink CurrentPageReport NextPageLink'
-						// footerColumnGroup={footerGroup}
 					>
 						<Column field='file_path' header='Путь к файлу'></Column>
 						<Column
@@ -107,7 +135,7 @@ const SearchResult: FC<ISearchResult> = ({ className }) => {
 							header='Кол-во совпадений'
 							sortable
 						></Column>
-						{/* <Column body={openBodyTemplate}></Column> */}
+						<Column body={openBodyTemplate}></Column>
 					</DataTable>
 					<div className='pt-2' hidden={isHiddenError}>
 						<Accordion>

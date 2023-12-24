@@ -8,6 +8,7 @@ import { actions as searchButtonActions } from '../store/searchButton/searchButt
 import { actions as progressBarActions } from '../store/progressBar/progressBar.slice'
 import { actions as settingsSearchActions } from '../store/settingsSearch/settingsSearch.slice'
 import { actions as searchResultActions } from '../store/searchResult/searchResult.slice'
+import { actions as modalEditorActions } from '../store/modalEditor/modalEditor.slice'
 
 const rootActions = {
 	...searchTextActions,
@@ -16,6 +17,7 @@ const rootActions = {
 	...progressBarActions,
 	...settingsSearchActions,
 	...searchResultActions,
+	...modalEditorActions,
 }
 export const useActions = () => {
 	const dispatch = useDispatch()
