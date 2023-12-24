@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, CSSProperties } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Fieldset } from 'primereact/fieldset'
 import { DataTable, DataTableFilterMeta } from 'primereact/datatable'
 import { Column } from 'primereact/column'
@@ -34,14 +34,8 @@ const SearchResult: FC<ISearchResult> = ({ className, toast }) => {
 	const { result, error } = useSelector(
 		(state: RootState) => state.searchResult
 	)
-	const { textLength } = useSelector((state: RootState) => state.searchText)
-	const {
-		setIndexes,
-		setEditorHeader,
-		setIsVisibleEditor,
-		setDisableNextIndex,
-		setEditorContents,
-	} = useActions()
+	const { setIndexes, setEditorHeader, setIsVisibleEditor, setEditorContents } =
+		useActions()
 
 	const footerGroup = (array: any) => {
 		return (

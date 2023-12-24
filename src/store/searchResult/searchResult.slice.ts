@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Nullable } from 'primereact/ts-helpers'
 
 interface IResultData {
 	path: string

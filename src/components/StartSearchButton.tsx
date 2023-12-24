@@ -1,4 +1,4 @@
-import { FC, useState, useRef, MutableRefObject } from 'react'
+import { FC } from 'react'
 import { Button } from 'primereact/button'
 
 import { FaSearch } from 'react-icons/fa'
@@ -28,9 +28,7 @@ const StartSearchButton: FC<IStartSearchButton> = ({ style, toast }) => {
 		isExtensions,
 		isDateModification,
 		dateModification,
-		extensions,
 		extensionsArray,
-		fileNames,
 		fileNamesArray,
 	} = useSelector((state: RootState) => state.settingsSearch)
 

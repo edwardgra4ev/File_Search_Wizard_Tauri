@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { useRef } from 'react'
 
 export const modalEditorSlice = createSlice({
 	name: 'modalEditor',

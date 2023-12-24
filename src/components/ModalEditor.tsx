@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from 'react'
+import { FC, useRef } from 'react'
 
 import { Dialog } from 'primereact/dialog'
 import { Editor } from 'primereact/editor'

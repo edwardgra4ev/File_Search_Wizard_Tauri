@@ -23,7 +23,6 @@ interface ISettingsSearch {
 
 const SettingsSearch: FC<ISettingsSearch> = ({ toast }) => {
 	const [date, setDate] = useState<Date | null>(null)
-	const { isSearch } = useSelector((state: RootState) => state.searchButton)
 	const {
 		isRecursion,
 		isFileNames,
