@@ -1,8 +1,7 @@
-import { FC } from 'react'
 import { Button } from 'primereact/button'
+import { FC } from 'react'
 
-import { FaSearch } from 'react-icons/fa'
-import { FaStop } from 'react-icons/fa'
+import { FaSearch, FaStop } from 'react-icons/fa'
 
 import { CSSProperties } from 'react'
 import { useSelector } from 'react-redux'
@@ -13,12 +12,12 @@ import { useActions } from '../hooks/useActions'
 
 import { warning_message } from '../hooks/messages'
 
-interface IStartSearchButton {
+interface IStartButton {
 	style?: CSSProperties
 	toast: any
 }
 
-const StartSearchButton: FC<IStartSearchButton> = ({ style, toast }) => {
+const StartButton: FC<IStartButton> = ({ style, toast }) => {
 	const { isSearch } = useSelector((state: RootState) => state.searchButton)
 	const { path } = useSelector((state: RootState) => state.path)
 	const { text } = useSelector((state: RootState) => state.searchText)
@@ -29,14 +28,17 @@ const StartSearchButton: FC<IStartSearchButton> = ({ style, toast }) => {
 		isDateModification,
 		dateModification,
 		extensionsArray,
-		fileNamesArray,
+		fileNamesArray
 	} = useSelector((state: RootState) => state.settingsSearch)
 
 	const { setHiddenProgressBar, setIsSearch } = useActions()
 
 	const start = () => {
 		if (path == '')
-			return warning_message(toast, 'Необходимо указать путь до директории')
+			return warning_message(
+				toast,
+				'Необходимо указать путь до директории'
+			)
 		if (text == '' || text.length < 3)
 			return warning_message(toast, 'Указан не корректный текст поиска')
 		if (isDateModification && !dateModification)
@@ -71,7 +73,7 @@ const StartSearchButton: FC<IStartSearchButton> = ({ style, toast }) => {
 			names: isFileNames ? fileNamesArray : null,
 			extensions: isExtensions ? extensionsArray : null,
 			modifiedDate: isDateModification ? dateModification : null,
-			isRecursion: isRecursion,
+			isRecursion: isRecursion
 		})
 	}
 
@@ -99,4 +101,4 @@ const StartSearchButton: FC<IStartSearchButton> = ({ style, toast }) => {
 	)
 }
 
-export default StartSearchButton
+export default StartButton

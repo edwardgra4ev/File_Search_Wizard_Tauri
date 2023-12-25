@@ -1,20 +1,20 @@
 import { useRef } from 'react'
 
-import { Fieldset } from 'primereact/fieldset'
 import { Card } from 'primereact/card'
+import { Fieldset } from 'primereact/fieldset'
 import { Toast } from 'primereact/toast'
 
-import SearchTextInput from './components/SearchTextInput'
-import OpenFolderButton from './components/OpenFolderButton'
-import StartSearchButton from './components/StartSearchButton'
-import SearchProgressBar from './components/SearchProgressBar'
-import SettingsSearch from './components/SettingsSearch'
-import SearchResult from './components/SearchResult'
 import ModalEditor from './components/ModalEditor'
+import OpenFolderButton from './components/OpenFolderButton'
+import SearchProgressBar from './components/ProgressBar'
+import SearchResult from './components/SearchResult'
+import SettingsSearch from './components/Settings'
+import StartSearchButton from './components/StartButton'
+import SearchTextInput from './components/TextInput'
 
-import 'primereact/resources/themes/bootstrap4-dark-purple/theme.css'
-import 'primereact/resources/primereact.min.css'
 import 'primeflex/primeflex.css'
+import 'primereact/resources/primereact.min.css'
+import 'primereact/resources/themes/bootstrap4-dark-purple/theme.css'
 
 function App() {
 	const toast = useRef(null)
@@ -28,10 +28,13 @@ function App() {
 							<SearchTextInput />
 						</div>
 						<div className='pt-2 flex flex-row flex-wrap'>
-							<StartSearchButton style={{ width: '49.5%' }} toast={toast} />
+							<StartSearchButton
+								style={{ width: '49.5%' }}
+								toast={toast}
+							/>
 							<span
 								style={{
-									width: '1%',
+									width: '1%'
 								}}
 							/>
 							<OpenFolderButton style={{ width: '49.5%' }} />

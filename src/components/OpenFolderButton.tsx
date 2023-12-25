@@ -1,5 +1,5 @@
-import { FC } from 'react'
 import { Button } from 'primereact/button'
+import { CSSProperties, FC } from 'react'
 
 import { FaFolderOpen } from 'react-icons/fa6'
 
@@ -7,7 +7,6 @@ import { open } from '@tauri-apps/api/dialog'
 import { homeDir } from '@tauri-apps/api/path'
 
 import { useActions } from '../hooks/useActions'
-import { CSSProperties } from 'react'
 
 interface IOpenFolderButton {
 	style?: CSSProperties
@@ -20,7 +19,7 @@ const OpenFolderButton: FC<IOpenFolderButton> = ({ style }) => {
 		const selected = await open({
 			directory: true,
 			multiple: true,
-			defaultPath: await homeDir(),
+			defaultPath: await homeDir()
 		})
 		if (Array.isArray(selected) && selected.length === 1) {
 			setPath(selected[0])

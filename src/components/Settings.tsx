@@ -1,11 +1,11 @@
 import { FC } from 'react'
 import { useSelector } from 'react-redux'
-import { RootState } from '../store/store'
 import { useActions } from '../hooks/useActions'
+import { RootState } from '../store/store'
 
-import { Checkbox } from 'primereact/checkbox'
 import { Accordion, AccordionTab } from 'primereact/accordion'
 import { Calendar } from 'primereact/calendar'
+import { Checkbox } from 'primereact/checkbox'
 
 import { InputText } from 'primereact/inputtext'
 import { useEffect, useState } from 'react'
@@ -17,11 +17,11 @@ import { info_message, success_message } from '../hooks/messages'
 
 import { listen } from '@tauri-apps/api/event'
 
-interface ISettingsSearch {
+interface ISettings {
 	toast: any
 }
 
-const SettingsSearch: FC<ISettingsSearch> = ({ toast }) => {
+const Settings: FC<ISettings> = ({ toast }) => {
 	const [date, setDate] = useState<Date | null>(null)
 	const {
 		isRecursion,
@@ -29,7 +29,7 @@ const SettingsSearch: FC<ISettingsSearch> = ({ toast }) => {
 		isExtensions,
 		isDateModification,
 		fileNames,
-		extensions,
+		extensions
 	} = useSelector((state: RootState) => state.settingsSearch)
 	const {
 		setDateModification,
@@ -42,7 +42,7 @@ const SettingsSearch: FC<ISettingsSearch> = ({ toast }) => {
 		setIsSearch,
 		setSearchResult,
 		setSearchError,
-		setHiddenProgressBar,
+		setHiddenProgressBar
 	} = useActions()
 
 	const changeDate = (date: Nullable<Date>) => {
@@ -91,7 +91,9 @@ const SettingsSearch: FC<ISettingsSearch> = ({ toast }) => {
 							onChange={e => setIsDateModification(e.checked)}
 							checked={isDateModification}
 						/>
-						<i className='pl-2 text-white w-20rem'>Поиск по дате модификации</i>
+						<i className='pl-2 text-white w-20rem'>
+							Поиск по дате модификации
+						</i>
 					</span>
 					<Calendar
 						value={date}
@@ -145,7 +147,9 @@ const SettingsSearch: FC<ISettingsSearch> = ({ toast }) => {
 							onChange={e => setIsRecursion(e.checked)}
 							checked={isRecursion}
 						/>
-						<i className='pl-2 text-white w-20rem'>Рекурсивный поиск файлов</i>
+						<i className='pl-2 text-white w-20rem'>
+							Рекурсивный поиск файлов
+						</i>
 					</span>
 				</div>
 			</AccordionTab>
@@ -153,4 +157,4 @@ const SettingsSearch: FC<ISettingsSearch> = ({ toast }) => {
 	)
 }
 
-export default SettingsSearch
+export default Settings

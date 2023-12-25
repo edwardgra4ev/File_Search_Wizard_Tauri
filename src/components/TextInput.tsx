@@ -1,12 +1,12 @@
-import { FC } from 'react'
-import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
+import { InputText } from 'primereact/inputtext'
+import { FC } from 'react'
 import { GrPowerReset } from 'react-icons/gr'
 import { useSelector } from 'react-redux'
 import { useActions } from '../hooks/useActions'
 import { RootState } from '../store/store'
 
-const SearchTextInput: FC = () => {
+const TextInput: FC = () => {
 	const { text } = useSelector((state: RootState) => state.searchText)
 	const { setText } = useActions()
 	return (
@@ -28,4 +28,4 @@ const SearchTextInput: FC = () => {
 	)
 }
 
-export default SearchTextInput
+export default TextInput
