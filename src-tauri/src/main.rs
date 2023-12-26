@@ -2,28 +2,28 @@
 
 extern crate chrono;
 
-use chrono::{Utc, DateTime};
-use tauri::{Window};
+use chrono::{DateTime, Utc};
+use regex::Regex;
 use rust_search::{FilterExt, SearchBuilder};
 use std::fs;
-use regex::Regex;
+use tauri::Window;
 
 #[derive(Clone, serde::Serialize)]
 struct Search {
     file_path: String,
     repetitions_count: usize,
-    indexes: Vec<usize>
+    indexes: Vec<usize>,
 }
 
 #[derive(Clone, serde::Serialize)]
-struct Error{
-    path: String
+struct Error {
+    path: String,
 }
 
 #[derive(Clone, serde::Serialize)]
 struct SearchResult {
     result: Option<Vec<Search>>,
-    error: Option<Vec<Error>>
+    error: Option<Vec<Error>>,
 }
 
 struct SearchConfig {
@@ -33,10 +33,8 @@ struct SearchConfig {
     extensions: Option<Vec<String>>,
     is_recursion: bool,
     date_modification: Option<String>,
-    is_search: bool
+    is_search: bool,
 }
-
-
 
 static mut SEARCH_CONFIG: SearchConfig = SearchConfig {
     path: String::new(),
@@ -45,7 +43,7 @@ static mut SEARCH_CONFIG: SearchConfig = SearchConfig {
     extensions: None,
     is_recursion: false,
     date_modification: None,
-    is_search: true
+    is_search: true,
 };
 
 pub struct SearchWizard {}
@@ -58,30 +56,36 @@ impl SearchWizard {
             .dirs(false)
             .custom_filter(|dir| {
                 if dir.metadata().unwrap().is_file() == false {
-                    return  false;
+                    return false;
                 }
                 // Проверка на расширения файла
-                if let Some(extensions) = unsafe {&SEARCH_CONFIG.extensions} {
+                if let Some(extensions) = unsafe { &SEARCH_CONFIG.extensions } {
                     if let Some(extension) = dir.path().extension() {
                         if extensions.contains(&extension.to_string_lossy().to_string()) == false {
-                            return  false;
+                            return false;
                         }
                     }
                 }
 
                 // Проверка на имя файла
-                if let Some(names) = unsafe {&SEARCH_CONFIG.names} {
+                if let Some(names) = unsafe { &SEARCH_CONFIG.names } {
                     let re = Regex::new(r"\..+").unwrap();
-                    let name: String = re.replace(&dir.file_name().to_string_lossy().to_string(), "").into();
-                    
+                    let name: String = re
+                        .replace(&dir.file_name().to_string_lossy().to_string(), "")
+                        .into();
+
                     if names.contains(&name) == false {
-                        return false
+                        return false;
                     }
                 }
 
                 // Дата модификации
-                if let Some(date_modification) = unsafe {SEARCH_CONFIG.date_modification.clone()}{
-                    let file_modified_string = DateTime::<Utc>::from(dir.metadata().unwrap().modified().unwrap()).format("%d-%m-%Y").to_string();
+                if let Some(date_modification) = unsafe { SEARCH_CONFIG.date_modification.clone() }
+                {
+                    let file_modified_string =
+                        DateTime::<Utc>::from(dir.metadata().unwrap().modified().unwrap())
+                            .format("%d-%m-%Y")
+                            .to_string();
                     if file_modified_string != date_modification {
                         return false;
                     }
@@ -93,36 +97,42 @@ impl SearchWizard {
     }
 
     /// Получение файлов с глубиной вхождения 1
-    async fn get_files( path: &String) -> Vec<String> {
+    async fn get_files(path: &String) -> Vec<String> {
         SearchBuilder::default()
             .location(path)
             .dirs(false)
             .custom_filter(|dir| {
                 if dir.metadata().unwrap().is_file() == false {
-                    return  false;
+                    return false;
                 }
                 // Проверка на расширения файла
-                if let Some(extensions) = unsafe {&SEARCH_CONFIG.extensions} {
+                if let Some(extensions) = unsafe { &SEARCH_CONFIG.extensions } {
                     if let Some(extension) = dir.path().extension() {
                         if extensions.contains(&extension.to_string_lossy().to_string()) == false {
-                            return  false;
+                            return false;
                         }
                     }
                 }
 
                 // Проверка на имя файла
-                if let Some(names) = unsafe {&SEARCH_CONFIG.names} {
+                if let Some(names) = unsafe { &SEARCH_CONFIG.names } {
                     let re = Regex::new(r"\..+").unwrap();
-                    let name: String = re.replace(&dir.file_name().to_string_lossy().to_string(), "").into();
-                    
+                    let name: String = re
+                        .replace(&dir.file_name().to_string_lossy().to_string(), "")
+                        .into();
+
                     if names.contains(&name) == false {
-                        return false
+                        return false;
                     }
                 }
 
                 // Дата модификации
-                if let Some(date_modification) = unsafe {SEARCH_CONFIG.date_modification.clone()}{
-                    let file_modified_string = DateTime::<Utc>::from(dir.metadata().unwrap().modified().unwrap()).format("%d-%m-%Y").to_string();
+                if let Some(date_modification) = unsafe { SEARCH_CONFIG.date_modification.clone() }
+                {
+                    let file_modified_string =
+                        DateTime::<Utc>::from(dir.metadata().unwrap().modified().unwrap())
+                            .format("%d-%m-%Y")
+                            .to_string();
                     if file_modified_string != date_modification {
                         return false;
                     }
@@ -134,12 +144,11 @@ impl SearchWizard {
             .collect()
     }
 
-    
     /// Поиск текста в файле
-    async fn search( files: &Vec<String>, text: &String) -> SearchResult{
-        let mut result:Vec<Search> = Vec::new();
-        let mut error:Vec<Error> = Vec::new();
-        
+    async fn search(files: &Vec<String>, text: &String) -> SearchResult {
+        let mut result: Vec<Search> = Vec::new();
+        let mut error: Vec<Error> = Vec::new();
+        let re: Regex;
         for file in files {
             unsafe {
                 if SEARCH_CONFIG.is_search == false {
@@ -147,34 +156,34 @@ impl SearchWizard {
                 }
             }
 
-            let mut indexes:Vec<usize> = Vec::new();
+            let mut indexes: Vec<usize> = Vec::new();
             let file_content = fs::read_to_string(file);
             let content: Option<String> = match file_content {
                 Ok(content) => Some(content),
                 Err(_) => {
-                    error.push(Error{path: file.clone()});
+                    error.push(Error { path: file.clone() });
                     continue;
                 }
             };
             if let Some(content) = content {
-                for number in content.to_lowercase().match_indices(text).map(|(i, _)|i) {
+                for number in content.to_lowercase().match_indices(text).map(|(i, _)| i) {
                     indexes.push(number);
                 }
-                
+
                 if indexes.len() > 0 {
                     result.push(Search {
-                        file_path:file.clone(), 
+                        file_path: file.clone(),
                         repetitions_count: indexes.len(),
-                        indexes: indexes.clone()
+                        indexes: indexes.clone(),
                     });
                 }
-            } 
+            }
         }
 
         return SearchResult {
             result: Some(result),
-            error: Some(error)
-        }
+            error: Some(error),
+        };
     }
 
     /// Запуск поиска
@@ -196,20 +205,25 @@ impl SearchWizard {
             files = SearchWizard::get_files(&path).await;
         }
 
-
         window.emit("COUNT_FILE_FOUND", files.len()).unwrap();
-        
+
         if files.len() > 0 {
             let result = SearchWizard::search(&files, &text).await;
             window.emit("SEARCH_RESULT", result).unwrap();
-        } 
+        }
     }
-
-
 }
 
 #[tauri::command]
-async fn search_files(window: Window, path: String, text: String, names: Option<Vec<String>>, extensions: Option<Vec<String>>, is_recursion: bool, modified_date: Option<String>){
+async fn search_files(
+    window: Window,
+    path: String,
+    text: String,
+    names: Option<Vec<String>>,
+    extensions: Option<Vec<String>>,
+    is_recursion: bool,
+    modified_date: Option<String>,
+) {
     unsafe {
         SEARCH_CONFIG.path = path;
         SEARCH_CONFIG.text = text;
@@ -217,14 +231,12 @@ async fn search_files(window: Window, path: String, text: String, names: Option<
         SEARCH_CONFIG.extensions = extensions;
         SEARCH_CONFIG.is_recursion = is_recursion;
         SEARCH_CONFIG.date_modification = modified_date;
-        SEARCH_CONFIG.is_search = true;
     }
     SearchWizard::run(&window).await;
-
 }
 
 #[tauri::command]
-async fn stop_search(){
+async fn stop_search() {
     unsafe {
         SEARCH_CONFIG.is_search = false;
     }
